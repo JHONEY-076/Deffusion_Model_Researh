@@ -1,0 +1,38 @@
+﻿<svg xmlns='http://www.w3.org/2000/svg' width='820' height='430' viewBox='0 0 820 430'>
+<rect width='100%' height='100%' fill='white'/>
+<text x='410' y='35' font-family='Arial, sans-serif' font-size='20' font-weight='700' text-anchor='middle' fill='#1f2933'>Feature-Level Distribution Difference</text>
+<text x='410' y='58' font-family='Arial, sans-serif' font-size='13' font-weight='400' text-anchor='middle' fill='#52616f'>Absolute difference between real and generated anomaly windows</text>
+<text x='285' y='78' font-family='Arial, sans-serif' font-size='13' font-weight='700' text-anchor='middle' fill='#1f2933'>Mean</text>
+<text x='435' y='78' font-family='Arial, sans-serif' font-size='13' font-weight='700' text-anchor='middle' fill='#1f2933'>Std</text>
+<text x='585' y='78' font-family='Arial, sans-serif' font-size='13' font-weight='700' text-anchor='middle' fill='#1f2933'>Corr</text>
+<text x='192' y='125' font-family='Arial, sans-serif' font-size='13' font-weight='700' text-anchor='end' fill='#1f2933'>GT-GAN</text>
+<rect x='210' y='88' width='150' height='62' fill='rgb(255,80,50)' stroke='white' stroke-width='2'/>
+<text x='285' y='125' font-family='Arial, sans-serif' font-size='13' font-weight='700' text-anchor='middle' fill='#1f2933'>0.788</text>
+<rect x='360' y='88' width='150' height='62' fill='rgb(232,175,156)' stroke='white' stroke-width='2'/>
+<text x='435' y='125' font-family='Arial, sans-serif' font-size='13' font-weight='700' text-anchor='middle' fill='#1f2933'>0.335</text>
+<rect x='510' y='88' width='150' height='62' fill='rgb(238,151,129)' stroke='white' stroke-width='2'/>
+<text x='585' y='125' font-family='Arial, sans-serif' font-size='13' font-weight='700' text-anchor='middle' fill='#1f2933'>0.451</text>
+<text x='192' y='187' font-family='Arial, sans-serif' font-size='13' font-weight='700' text-anchor='end' fill='#1f2933'>Diffusion</text>
+<rect x='210' y='150' width='150' height='62' fill='rgb(221,222,209)' stroke='white' stroke-width='2'/>
+<text x='285' y='187' font-family='Arial, sans-serif' font-size='13' font-weight='700' text-anchor='middle' fill='#1f2933'>0.11</text>
+<rect x='360' y='150' width='150' height='62' fill='rgb(230,183,165)' stroke='white' stroke-width='2'/>
+<text x='435' y='187' font-family='Arial, sans-serif' font-size='13' font-weight='700' text-anchor='middle' fill='#1f2933'>0.298</text>
+<rect x='510' y='150' width='150' height='62' fill='rgb(233,170,151)' stroke='white' stroke-width='2'/>
+<text x='585' y='187' font-family='Arial, sans-serif' font-size='13' font-weight='700' text-anchor='middle' fill='#1f2933'>0.356</text>
+<text x='192' y='249' font-family='Arial, sans-serif' font-size='13' font-weight='700' text-anchor='end' fill='#1f2933'>Masking GT-GAN</text>
+<rect x='210' y='212' width='150' height='62' fill='rgb(215,244,234)' stroke='white' stroke-width='2'/>
+<text x='285' y='249' font-family='Arial, sans-serif' font-size='13' font-weight='700' text-anchor='middle' fill='#1f2933'>0.003</text>
+<rect x='360' y='212' width='150' height='62' fill='rgb(215,245,235)' stroke='white' stroke-width='2'/>
+<text x='435' y='249' font-family='Arial, sans-serif' font-size='13' font-weight='700' text-anchor='middle' fill='#1f2933'>0.001</text>
+<rect x='510' y='212' width='150' height='62' fill='rgb(215,245,235)' stroke='white' stroke-width='2'/>
+<text x='585' y='249' font-family='Arial, sans-serif' font-size='13' font-weight='700' text-anchor='middle' fill='#1f2933'>0.001</text>
+<text x='192' y='311' font-family='Arial, sans-serif' font-size='13' font-weight='700' text-anchor='end' fill='#1f2933'>Masking Diffusion</text>
+<rect x='210' y='274' width='150' height='62' fill='rgb(216,243,232)' stroke='white' stroke-width='2'/>
+<text x='285' y='311' font-family='Arial, sans-serif' font-size='13' font-weight='700' text-anchor='middle' fill='#1f2933'>0.011</text>
+<rect x='360' y='274' width='150' height='62' fill='rgb(216,243,232)' stroke='white' stroke-width='2'/>
+<text x='435' y='311' font-family='Arial, sans-serif' font-size='13' font-weight='700' text-anchor='middle' fill='#1f2933'>0.012</text>
+<rect x='510' y='274' width='150' height='62' fill='rgb(216,243,232)' stroke='white' stroke-width='2'/>
+<text x='585' y='311' font-family='Arial, sans-serif' font-size='13' font-weight='700' text-anchor='middle' fill='#1f2933'>0.011</text>
+<text x='410' y='390' font-family='Arial, sans-serif' font-size='12' font-weight='400' text-anchor='middle' fill='#52616f'>Lighter cells are closer to the real anomaly distribution.</text>
+</svg>
+

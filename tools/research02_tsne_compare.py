@@ -97,8 +97,26 @@ def plot_pairwise_tsne(real_x: np.ndarray, generated_sets: dict[str, np.ndarray]
         gen_points = embedded[len(real_x) :]
 
         ax = axes[i]
-        ax.scatter(gen_points[:, 0], gen_points[:, 1], s=26, alpha=0.48, color="#FAA43A", label="Generated Data")
-        ax.scatter(real_points[:, 0], real_points[:, 1], s=20, alpha=0.78, color="#5DA5DA", label="Real Data")
+        ax.scatter(
+            gen_points[:, 0],
+            gen_points[:, 1],
+            s=42,
+            alpha=0.62,
+            color="#FAA43A",
+            edgecolors="white",
+            linewidths=0.35,
+            label="Generated Data",
+        )
+        ax.scatter(
+            real_points[:, 0],
+            real_points[:, 1],
+            s=34,
+            alpha=0.88,
+            color="#5DA5DA",
+            edgecolors="#2f6f9f",
+            linewidths=0.25,
+            label="Real Data",
+        )
         ax.set_title(f"{method}\nReal n={len(real_x)}, Generated n={len(gen_sample)}", fontsize=10, fontweight="bold")
         ax.legend(fontsize=8)
         ax.grid(False)
@@ -107,6 +125,99 @@ def plot_pairwise_tsne(real_x: np.ndarray, generated_sets: dict[str, np.ndarray]
     out_path = figure_dir / "tsne_2x2_pairwise_real_vs_generated.png"
     plt.savefig(out_path, dpi=220)
     plt.close()
+
+
+def plot_joint_tsne_centroid_distances(
+    real_x: np.ndarray,
+    generated_sets: dict[str, np.ndarray],
+    figure_dir: Path,
+    result_dir: Path,
+) -> None:
+    sampled = {
+        method: sample_rows(generated_x, len(real_x), RANDOM_STATE + i)
+        for i, (method, generated_x) in enumerate(generated_sets.items())
+    }
+    matrices = [flatten_windows(real_x)]
+    labels = ["Real"] * len(real_x)
+    for method, generated_x in sampled.items():
+        matrices.append(flatten_windows(generated_x))
+        labels.extend([method] * len(generated_x))
+
+    embedded = run_tsne(np.vstack(matrices))
+    labels = np.asarray(labels)
+    real_points = embedded[labels == "Real"]
+    real_centroid = real_points.mean(axis=0)
+
+    rows = []
+    for label in ["Real", *sampled.keys()]:
+        points = embedded[labels == label]
+        distances = np.linalg.norm(points - real_centroid, axis=1)
+        rows.extend(
+            {
+                "method": label,
+                "tsne_x": float(point[0]),
+                "tsne_y": float(point[1]),
+                "distance_to_real_centroid": float(distance),
+            }
+            for point, distance in zip(points, distances)
+        )
+
+    distance_df = pd.DataFrame(rows)
+    distance_df.to_csv(result_dir / "tsne_distance_to_real_centroid.csv", index=False)
+
+    plot_order = list(generated_sets)
+    fig, ax = plt.subplots(figsize=(10, 5.8))
+    data = [
+        distance_df.loc[distance_df["method"] == method, "distance_to_real_centroid"].to_numpy()
+        for method in plot_order
+    ]
+    box = ax.boxplot(data, labels=plot_order, patch_artist=True, showfliers=False)
+    colors = ["#FAA43A", "#60BD68", "#F17CB0", "#5DA5DA"]
+    for patch, color in zip(box["boxes"], colors):
+        patch.set_facecolor(color)
+        patch.set_alpha(0.55)
+    real_median = distance_df.loc[
+        distance_df["method"] == "Real", "distance_to_real_centroid"
+    ].median()
+    ax.axhline(real_median, color="#333333", linestyle="--", linewidth=1.2, label="Real median distance")
+    ax.set_title("t-SNE Distance from Real-Anomaly Centroid", fontweight="bold")
+    ax.set_ylabel("Distance in shared t-SNE space")
+    ax.tick_params(axis="x", rotation=12)
+    ax.grid(axis="y", alpha=0.22)
+    ax.legend(fontsize=9)
+    plt.tight_layout()
+    plt.savefig(figure_dir / "tsne_distance_to_real_centroid_boxplot.png", dpi=220)
+    plt.close(fig)
+
+    summary = (
+        distance_df[distance_df["method"] != "Real"]
+        .groupby("method")["distance_to_real_centroid"]
+        .agg(["mean", "median", "std"])
+        .reset_index()
+    )
+    summary.to_csv(result_dir / "tsne_distance_to_real_centroid_summary.csv", index=False)
+
+    fig, ax = plt.subplots(figsize=(9.5, 5.4))
+    summary = summary.set_index("method").loc[plot_order].reset_index()
+    ax.bar(summary["method"], summary["mean"], color=colors, alpha=0.76)
+    ax.errorbar(
+        summary["method"],
+        summary["mean"],
+        yerr=summary["std"],
+        fmt="none",
+        ecolor="#333333",
+        elinewidth=1.0,
+        capsize=4,
+    )
+    ax.axhline(real_median, color="#333333", linestyle="--", linewidth=1.2, label="Real median distance")
+    ax.set_title("Mean t-SNE Distance from Real-Anomaly Centroid", fontweight="bold")
+    ax.set_ylabel("Distance in shared t-SNE space")
+    ax.tick_params(axis="x", rotation=12)
+    ax.grid(axis="y", alpha=0.22)
+    ax.legend(fontsize=9)
+    plt.tight_layout()
+    plt.savefig(figure_dir / "tsne_distance_to_real_centroid_bar.png", dpi=220)
+    plt.close(fig)
 
 
 def main() -> None:
@@ -136,6 +247,7 @@ def main() -> None:
     metrics = pd.DataFrame(rows)
     metrics.to_csv(result_dir / "tsne_distribution_comparison_metrics.csv", index=False)
     plot_pairwise_tsne(real_x, generated_sets, figure_dir)
+    plot_joint_tsne_centroid_distances(real_x, generated_sets, figure_dir, result_dir)
 
     sort_cols = [
         "gen_to_real_nn_mean",
@@ -148,6 +260,9 @@ def main() -> None:
     print(metrics.sort_values(sort_cols).to_string(index=False))
     print("saved: data/research02/figures/tsne_2x2_pairwise_real_vs_generated.png")
     print("saved: data/research02/results/tsne_distribution_comparison_metrics.csv")
+    print("saved: data/research02/figures/tsne_distance_to_real_centroid_boxplot.png")
+    print("saved: data/research02/figures/tsne_distance_to_real_centroid_bar.png")
+    print("saved: data/research02/results/tsne_distance_to_real_centroid.csv")
 
 
 if __name__ == "__main__":

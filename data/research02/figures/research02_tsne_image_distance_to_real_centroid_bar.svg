@@ -1,0 +1,43 @@
+﻿<svg xmlns='http://www.w3.org/2000/svg' width='980' height='570' viewBox='0 0 980 570'>
+<rect width='100%' height='100%' fill='white'/>
+<text x='490' y='35' font-family='Arial, sans-serif' font-size='20' font-weight='700' text-anchor='middle' fill='#1f2933'>t-SNE Image-Derived Distance to Real-Anomaly Centroid</text>
+<text x='490' y='59' font-family='Arial, sans-serif' font-size='13' font-weight='400' text-anchor='middle' fill='#52616f'>Generated point distance from the real-data center in each t-SNE subplot</text>
+<line x1='95' y1='420' x2='885' y2='420' stroke='#d9e1e8' stroke-width='1'/>
+<text x='81' y='424' font-family='Arial, sans-serif' font-size='11' font-weight='400' text-anchor='end' fill='#52616f'>0</text>
+<line x1='95' y1='336.25' x2='885' y2='336.25' stroke='#d9e1e8' stroke-width='1'/>
+<text x='81' y='340.25' font-family='Arial, sans-serif' font-size='11' font-weight='400' text-anchor='end' fill='#52616f'>184</text>
+<line x1='95' y1='252.5' x2='885' y2='252.5' stroke='#d9e1e8' stroke-width='1'/>
+<text x='81' y='256.5' font-family='Arial, sans-serif' font-size='11' font-weight='400' text-anchor='end' fill='#52616f'>369</text>
+<line x1='95' y1='168.75' x2='885' y2='168.75' stroke='#d9e1e8' stroke-width='1'/>
+<text x='81' y='172.75' font-family='Arial, sans-serif' font-size='11' font-weight='400' text-anchor='end' fill='#52616f'>553</text>
+<line x1='95' y1='85' x2='885' y2='85' stroke='#d9e1e8' stroke-width='1'/>
+<text x='81' y='89' font-family='Arial, sans-serif' font-size='11' font-weight='400' text-anchor='end' fill='#52616f'>737</text>
+<line x1='95' y1='420' x2='885' y2='420' stroke='#8a97a5'/>
+<line x1='95' y1='85' x2='95' y2='420' stroke='#8a97a5'/>
+<rect x='157' y='136.101694915254' width='118' height='283.898305084746' fill='#f28e2b' opacity='0.82'/>
+<line x1='216' y1='241.021325178496' x2='216' y2='29.6435790336816' stroke='#1f2933' stroke-width='2'/>
+<line x1='201' y1='241.021325178496' x2='231' y2='241.021325178496' stroke='#1f2933' stroke-width='2'/>
+<line x1='201' y1='29.6435790336816' x2='231' y2='29.6435790336816' stroke='#1f2933' stroke-width='2'/>
+<text x='216' y='128.101694915254' font-family='Arial, sans-serif' font-size='12' font-weight='700' text-anchor='middle' fill='#1f2933'>624.8</text>
+<text x='216' y='451' font-family='Arial, sans-serif' font-size='12' font-weight='400' text-anchor='middle' fill='#1f2933'>GT-GAN</text>
+<rect x='341' y='218.98226879422' width='118' height='201.01773120578' fill='#59a14f' opacity='0.82'/>
+<line x1='400' y1='255.791423227844' x2='400' y2='178.122435303473' stroke='#1f2933' stroke-width='2'/>
+<line x1='385' y1='255.791423227844' x2='415' y2='255.791423227844' stroke='#1f2933' stroke-width='2'/>
+<line x1='385' y1='178.122435303473' x2='415' y2='178.122435303473' stroke='#1f2933' stroke-width='2'/>
+<text x='400' y='210.98226879422' font-family='Arial, sans-serif' font-size='12' font-weight='700' text-anchor='middle' fill='#1f2933'>442.4</text>
+<text x='400' y='451' font-family='Arial, sans-serif' font-size='12' font-weight='400' text-anchor='middle' fill='#1f2933'>Masking&#10;GT-GAN</text>
+<rect x='525' y='173.41474201005' width='118' height='246.58525798995' fill='#e15759' opacity='0.82'/>
+<line x1='584' y1='215.784436017547' x2='584' y2='133.702638782712' stroke='#1f2933' stroke-width='2'/>
+<line x1='569' y1='215.784436017547' x2='599' y2='215.784436017547' stroke='#1f2933' stroke-width='2'/>
+<line x1='569' y1='133.702638782712' x2='599' y2='133.702638782712' stroke='#1f2933' stroke-width='2'/>
+<text x='584' y='165.41474201005' font-family='Arial, sans-serif' font-size='12' font-weight='700' text-anchor='middle' fill='#1f2933'>542.7</text>
+<text x='584' y='451' font-family='Arial, sans-serif' font-size='12' font-weight='400' text-anchor='middle' fill='#1f2933'>Diffusion</text>
+<rect x='709' y='223.00341401638' width='118' height='196.99658598362' fill='#4e79a7' opacity='0.82'/>
+<line x1='768' y1='252.758071193591' x2='768' y2='189.772851647132' stroke='#1f2933' stroke-width='2'/>
+<line x1='753' y1='252.758071193591' x2='783' y2='252.758071193591' stroke='#1f2933' stroke-width='2'/>
+<line x1='753' y1='189.772851647132' x2='783' y2='189.772851647132' stroke='#1f2933' stroke-width='2'/>
+<text x='768' y='215.00341401638' font-family='Arial, sans-serif' font-size='12' font-weight='700' text-anchor='middle' fill='#1f2933'>433.6</text>
+<text x='768' y='451' font-family='Arial, sans-serif' font-size='12' font-weight='400' text-anchor='middle' fill='#1f2933'>Masking&#10;Diffusion</text>
+<text x='490' y='510' font-family='Arial, sans-serif' font-size='12' font-weight='400' text-anchor='middle' fill='#52616f'>Bars show mean pixel distance; whiskers show Q1-Q3. Use as a visual diagnostic, not as the final numeric metric.</text>
+</svg>
+

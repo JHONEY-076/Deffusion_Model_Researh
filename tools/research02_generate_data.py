@@ -638,23 +638,24 @@ def save_tsne_figure(real_x: np.ndarray, generated_sets: dict[str, np.ndarray], 
         ax.scatter(
             gen_points[:, 0],
             gen_points[:, 1],
-            s=28,
-            alpha=0.45,
+            s=44,
+            alpha=0.62,
             label="Generated Data",
             color="#FAA43A",
             marker="o",
-            edgecolor="none",
+            edgecolor="white",
+            linewidth=0.35,
         )
         ax.scatter(
             real_points[:, 0],
             real_points[:, 1],
-            s=24,
-            alpha=0.75,
+            s=36,
+            alpha=0.88,
             label="Real Data",
             color="#5DA5DA",
             marker="o",
-            edgecolor="white",
-            linewidth=0.25,
+            edgecolor="#2f6f9f",
+            linewidth=0.3,
         )
         ax.set_title(f"{titles[name]}\nReal n={len(real_points)}, Generated n={len(gen_points)}", fontsize=10, fontweight="bold")
         ax.legend(fontsize=8)

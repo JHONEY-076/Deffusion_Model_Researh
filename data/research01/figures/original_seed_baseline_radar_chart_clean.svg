@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="640" viewBox="0 0 760 640">
+  <defs>
+    <style>
+      .bg{fill:#ffffff}
+      .grid{fill:none;stroke:#d5dbe7;stroke-width:1.2}
+      .axis{stroke:#9aa4b2;stroke-width:1.2}
+      .shape{fill:#4c78a8;fill-opacity:.22;stroke:#2563eb;stroke-width:3}
+      .point{fill:#2563eb;stroke:#ffffff;stroke-width:2}
+      .label{font:700 15px Arial, sans-serif;fill:#172033}
+      .value{font:700 14px Arial, sans-serif;fill:#2563eb}
+      .tick{font:400 12px Arial, sans-serif;fill:#667085}
+    </style>
+  </defs>
+  <rect class="bg" width="760" height="640"/>
+
+  <!-- Radar chart center (380,330), radius 220 -->
+  <polygon class="grid" points="380,286 338.153,316.403 354.134,365.597 405.866,365.597 421.847,316.403"/>
+  <polygon class="grid" points="380,242 296.306,302.806 328.267,401.194 431.733,401.194 463.694,302.806"/>
+  <polygon class="grid" points="380,198 254.459,289.209 302.401,436.791 457.599,436.791 505.541,289.209"/>
+  <polygon class="grid" points="380,154 212.612,275.612 276.535,472.388 483.465,472.388 547.388,275.612"/>
+  <polygon class="grid" points="380,110 170.764,262.015 250.669,507.985 509.331,507.985 589.236,262.015"/>
+
+  <line class="axis" x1="380" y1="330" x2="380" y2="110"/>
+  <line class="axis" x1="380" y1="330" x2="170.764" y2="262.015"/>
+  <line class="axis" x1="380" y1="330" x2="250.669" y2="507.985"/>
+  <line class="axis" x1="380" y1="330" x2="509.331" y2="507.985"/>
+  <line class="axis" x1="380" y1="330" x2="589.236" y2="262.015"/>
+
+  <text class="tick" x="388" y="289">0.2</text>
+  <text class="tick" x="388" y="245">0.4</text>
+  <text class="tick" x="388" y="201">0.6</text>
+  <text class="tick" x="388" y="157">0.8</text>
+  <text class="tick" x="388" y="113">1.0</text>
+
+  <polygon class="shape" points="380,141.87 250.66,287.97 287.15,457.75 504.03,500.70 547.44,275.62"/>
+
+  <circle class="point" cx="380" cy="141.87" r="5"/>
+  <circle class="point" cx="250.66" cy="287.97" r="5"/>
+  <circle class="point" cx="287.15" cy="457.75" r="5"/>
+  <circle class="point" cx="504.03" cy="500.70" r="5"/>
+  <circle class="point" cx="547.44" cy="275.62" r="5"/>
+
+  <text class="label" x="343" y="82">Precision</text>
+  <text class="value" x="363" y="103">0.855</text>
+
+  <text class="label" x="74" y="257">Recall</text>
+  <text class="value" x="85" y="279">0.618</text>
+
+  <text class="label" x="205" y="545">F1-score</text>
+  <text class="value" x="227" y="567">0.718</text>
+
+  <text class="label" x="510" y="545">AUROC</text>
+  <text class="value" x="520" y="567">0.959</text>
+
+  <text class="label" x="610" y="257">AUPRC</text>
+  <text class="value" x="620" y="279">0.800</text>
+</svg>

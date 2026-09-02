@@ -38,6 +38,25 @@
 
 전체적으로 증강은 원본 baseline의 낮은 recall 문제를 개선했습니다. 다만 단순히 생성형 방법이 항상 전통적 증강보다 우수하다고 결론내리기는 어렵습니다. Magnitude warping과 Noise injection 같은 전통적 증강도 매우 강한 성능을 보였고, 생성형 방법은 필터링과 threshold 전략을 함께 설계했을 때 더 실용적이었습니다.
 
+## Filtered Masking Diffusion 중심 해석
+
+이 저장소의 생성형 연구 축은 `Filtered Masking Diffusion`입니다. 단순 Diffusion처럼 전체 시계열 window를 noise에서 새로 만드는 대신, 실제 불량 seed의 관측값을 보존하고 정상-불량 차이가 큰 시간 구간과 feature group만 선택적으로 복원합니다. 이후 생성 후보를 모두 학습에 넣지 않고, 실제 불량 분포와의 근접성, 정상 분포와의 분리도, feature range 일관성을 기준으로 선별합니다.
+
+이 접근은 세 가지 문제를 동시에 다룹니다.
+
+- 불량 seed가 적을 때도 실제 불량 패턴의 구조를 보존합니다.
+- 생성 모델이 만든 비현실적 샘플이 학습에 섞이는 위험을 줄입니다.
+- 운영 목적에 따라 recall 중심 또는 precision 중심으로 필터링과 threshold를 조정할 수 있습니다.
+
+Filtered Masking Diffusion의 가장 좋은 단일 F1 결과는 750개 선별 조건에서 F1 0.874, precision 0.952, recall 0.807이었습니다. 더 느슨한 필터링을 적용하면 precision은 0.849로 낮아지지만 recall은 0.855까지 올라 false negative를 줄이는 데 유리했습니다. 즉, 이 방법은 “최고 점수 하나”보다 불량 미검출 비용이 큰 제조 현장에서 탐지 민감도를 조절할 수 있다는 점이 핵심입니다.
+
+| Filtered Masking Diffusion 설정 | Precision | Recall | F1 | F2 | AUPRC | 특징 |
+| --- | ---: | ---: | ---: | ---: | ---: | --- |
+| 750 samples, default filtering | 0.891 | 0.774 | 0.828 | 0.795 | 0.928 | 균형형 기본 설정 |
+| 750 samples, loose filtering | 0.849 | 0.855 | 0.852 | 0.854 | 0.939 | recall/FN 감소 중심 |
+| 750 samples, small mask | 0.981 | 0.686 | 0.807 | 0.730 | 0.937 | precision/FP 억제 중심 |
+| 750 samples, large mask | 0.956 | 0.730 | 0.828 | 0.766 | 0.941 | 높은 precision과 AUPRC |
+
 ## 연구 흐름
 
 ### Research01: 원본 데이터 baseline
@@ -82,7 +101,7 @@ Balanced 조건과 imbalanced 조건을 나누어 비교했습니다. 단순히 
 | Balanced | Frequency domain | 0.698 | 0.686 | 0.692 | 0.954 | 0.729 |
 | Imbalanced | Magnitude warping | 0.964 | 0.814 | 0.883 | 0.994 | 0.959 |
 
-생성형 증강은 생성 샘플을 전부 쓰기보다 품질 기준으로 선별했을 때 실용성이 좋아졌습니다. `Filtered@750 Masking Diffusion`은 생성형 후보 중 가장 안정적인 결과를 보였습니다.
+생성형 증강은 생성 샘플을 전부 쓰기보다 품질 기준으로 선별했을 때 실용성이 좋아졌습니다. `Filtered@750 Masking Diffusion`은 생성형 후보 중 가장 중요한 실험 방향이며, baseline 대비 recall을 높이면서도 precision을 높은 수준으로 유지했습니다.
 
 | Method | Generated anomalies | Precision | Recall | F1 | AUROC | AUPRC |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
@@ -129,7 +148,7 @@ Filtered Masking Diffusion의 필터링 강도를 `loose`, `default`, `strict`�
 | strict | 750 | 0.882 | 0.780 | 0.828 | 0.799 | 0.907 | 65 | 31 |
 | strict | 1,000 | 0.904 | 0.794 | 0.845 | 0.814 | 0.933 | 61 | 25 |
 
-Loose 조건은 anomaly radius를 넓히고 normal radius 기준을 완화해 더 다양한 후보를 남겼습니다. 그 결과 false positive는 늘었지만 false negative가 크게 줄어 recall 중심 목적에 유리했습니다.
+Loose 조건은 anomaly radius를 넓히고 normal radius 기준을 완화해 더 다양한 후보를 남겼습니다. 그 결과 false positive는 늘었지만 false negative가 크게 줄어 recall 중심 목적에 유리했습니다. 제조 불량 탐지처럼 놓친 불량의 비용이 큰 경우에는 이 설정이 Filtered Masking Diffusion의 실무적 장점을 가장 잘 보여줍니다.
 
 ![Filtering strength heatmap](pictures/research09_filtering_strength_heatmap.jpg)
 
@@ -143,7 +162,7 @@ Loose filtering과 750개 target count를 고정하고, Masking Diffusion의 tem
 | default | 0.25 | 0.40 | 0.865 | 0.777 | 0.819 | 0.793 | 0.911 | 66 | 36 |
 | large | 0.35 | 0.60 | 0.956 | 0.730 | 0.828 | 0.766 | 0.941 | 80 | 10 |
 
-마스킹 비율은 precision과 recall의 균형을 바꿨습니다. Small mask는 매우 높은 precision과 낮은 FP를 보였고, default mask는 recall/F2가 가장 좋았으며, large mask는 F1과 AUPRC 관점에서 좋은 절충안을 보였습니다.
+마스킹 비율은 precision과 recall의 균형을 바꿨습니다. Small mask는 매우 높은 precision과 낮은 FP를 보였고, default mask는 recall/F2가 가장 좋았으며, large mask는 F1과 AUPRC 관점에서 좋은 절충안을 보였습니다. 따라서 Filtered Masking Diffusion은 고정된 하나의 증강기가 아니라, 마스킹 강도와 필터링 강도를 조합해 목적 함수에 맞게 조절하는 생성형 증강 프레임워크로 해석할 수 있습니다.
 
 ![Masking ratio scores](pictures/research10_masking_ratio_score_bars.jpg)
 
@@ -156,7 +175,7 @@ Loose filtering과 750개 target count를 고정하고, Masking Diffusion의 tem
 - 생성형 증강은 수량보다 품질 필터링과 사용 목적이 중요합니다.
 - Recall 중심이면 loose filtering이 효과적이고, precision 중심이면 더 작은 마스킹 또는 엄격한 threshold가 유리합니다.
 - 전통 증강, 특히 Magnitude warping과 Noise injection은 여전히 강한 baseline입니다.
-- 생성형 후보 중에서는 Filtered Masking Diffusion이 가장 실용적인 방향입니다.
+- 생성형 후보 중에서는 Filtered Masking Diffusion이 가장 실용적인 방향이며, 특히 false negative 감소가 중요한 제조 불량 탐지 목적에 맞춰 조정 가능한 방법입니다.
 
 ## 프로젝트 구조
 

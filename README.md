@@ -50,6 +50,8 @@
 
 Filtered Masking Diffusion의 가장 좋은 단일 F1 결과는 750개 선별 조건에서 F1 0.874, precision 0.952, recall 0.807이었습니다. 더 느슨한 필터링을 적용하면 precision은 0.849로 낮아지지만 recall은 0.855까지 올라 false negative를 줄이는 데 유리했습니다. 즉, 이 방법은 “최고 점수 하나”보다 불량 미검출 비용이 큰 제조 현장에서 탐지 민감도를 조절할 수 있다는 점이 핵심입니다.
 
+![Filtered Masking Diffusion filtering structure](pictures/filtered_masking_diffusion_quality_criteria_with_distribution.png)
+
 | Filtered Masking Diffusion 설정 | Precision | Recall | F1 | F2 | AUPRC | 특징 |
 | --- | ---: | ---: | ---: | ---: | ---: | --- |
 | 750 samples, default filtering | 0.891 | 0.774 | 0.828 | 0.795 | 0.928 | 균형형 기본 설정 |
@@ -91,6 +93,17 @@ Masking 전략은 element-wise random masking이 아니라 정상-불량 분포 
 | Masking Diffusion | 1,000 | 0.962 | 0.764 | 0.851 | 0.990 | 0.938 |
 
 Threshold 최적화에서는 precision-recall trade-off가 크게 달라졌습니다. 예를 들어 Masking Diffusion 1,000개에서 best validation F1 threshold는 F1 0.915를 보였고, recall 중심 전략에서는 final recall 0.956까지 올랐습니다.
+
+Filtered Masking Diffusion에서도 threshold 선택은 핵심입니다. Best F1 threshold는 false positive를 낮게 유지하면서 균형 성능을 만들고, Best F2 threshold는 recall을 더 높이는 대신 false positive가 증가하는 방향으로 움직입니다.
+
+![Filtered Masking Diffusion threshold curves and error counts](pictures/threshold_metric_curves_and_error_counts_final_layout_legend_up.png)
+
+추가 threshold 분석 그림:
+
+- [Filtering criteria diagram](pictures/filtered_masking_diffusion_quality_criteria_v2.png)
+- [Metric curves](pictures/threshold_metric_curves_filtered_masking_diffusion.png)
+- [False positive / false negative curves](pictures/threshold_fp_fn_curves_filtered_masking_diffusion.png)
+- [Selected threshold error count bars](pictures/threshold_fp_fn_bar_filtered_masking_diffusion.png)
 
 ### Research05-06: 전통 증강, class balance, 생성 샘플 필터링
 
@@ -246,6 +259,15 @@ python tools/research10_masking_ratio.py
 - `data/research08/results/research08_summary.json`
 - `data/research09/results/research09_filtering_strength_summary.json`
 - `data/research10/results/research10_masking_ratio_summary.json`
+
+## 주요 그림 파일
+
+- `pictures/filtered_masking_diffusion_quality_criteria_with_distribution.png`
+- `pictures/filtered_masking_diffusion_quality_criteria_v2.png`
+- `pictures/threshold_metric_curves_and_error_counts_final_layout_legend_up.png`
+- `pictures/threshold_metric_curves_filtered_masking_diffusion.png`
+- `pictures/threshold_fp_fn_curves_filtered_masking_diffusion.png`
+- `pictures/threshold_fp_fn_bar_filtered_masking_diffusion.png`
 
 ## 주의 사항
 
